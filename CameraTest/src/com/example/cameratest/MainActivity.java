@@ -2,15 +2,13 @@ package com.example.cameratest;
 // This project is adopted from https://eclass.srv.ualberta.ca/mod/resource/view.php?id=1136415
 import java.io.File;
 
-import com.example.cameratest.R;
-
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.app.Activity;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -59,23 +57,24 @@ public class MainActivity extends Activity {
 		File imageFile = new File(imagePathAndFileName);
 		imageFileUri = Uri.fromFile(imageFile);
 		
-		//TODO: Add your code here ...
-		//TODO: Add your code here ...
-		//TODO: Add your code here ...
-
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
+		startActivityForResult(intent, CAMERA_ACTIVITY_REQUEST_CODE);
+		
     }
+    
+    private final int CAMERA_ACTIVITY_REQUEST_CODE = 12345;
     
     //This method is run after returning back from camera activity:
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		
-    	if (requestCode == 12345){
+    	if (requestCode == CAMERA_ACTIVITY_REQUEST_CODE){
 			TextView tv = (TextView)findViewById(R.id.status);
 			
 			if (resultCode == RESULT_OK){
-			//TODO: Add your code here ...
-			//TODO: Add your code here ...
-			//TODO: Add your code here ...
-			//TODO: Add your code here ...
+				tv.setText("Photo taken!");
+				ImageButton ib = (ImageButton) findViewById(R.id.TakeAPhoto);
+				ib.setImageDrawable(Drawable.createFromPath(imageFileUri.getPath()));
 			}
 			else
 				if (resultCode == RESULT_CANCELED){
